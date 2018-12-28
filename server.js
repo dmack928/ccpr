@@ -13,34 +13,24 @@ const port    = 3000;
 
 
 
-// create a helper function that render server informatin in the browser
-
-function display(req, res) {
-  res.json({
-    'req.params': req.params,
-    'req.url'   : req.url,
-    'req.query' : req.query,
-    'req.body'  : req.body
-
-  })
-};
 
 
-//create home route
+
+//create  routes
 
 app.get('/', (req,res) => {
   res.send ('Test /')
 });
 
 app.get('/aboutme',(req,res) =>{
-  res.send ('aboutme info')
+  res.send ('about me info')
 });
 
 app.get('/posts', (req,res) =>{
   //fetch the api data
   fetch('https://jsonplaceholder.typicode.com/posts')
-  .then(respnse => response.json())
-  res.render('posts')
+  .then(res => res.json())
+  .then(data => { res.send({data}) })
 })
 
 
