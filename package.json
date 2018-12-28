@@ -1,0 +1,19 @@
+{
+  "name": "ccpr",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "node-fetch": "^2.3.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9",
+    "pkg": "^4.3.5"
+  },
+  "scripts": {
+    "dev": "nodemon server.js"
+  }
+}
