@@ -65,10 +65,10 @@ app.get('/aboutme', (req,res) => {
   ];
 
   var answers = [
-    'description...',
-    'tech...',
-    'techstack...',
-    'hobbies...'
+    'I enjoy cooking, eating out, trying different foods, and spending time with my family',
+    'How everyday there is something new out there to learn everyday, how helpful the community is. ',
+    'Ruby On Rails coding on a whole is a joy to me but coding in rails is my favorite to use.',
+    'I enjoy fishing, sporting events, hikes camping and swimming.'
   ];
 
   res.render('aboutme.ejs', {
