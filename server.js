@@ -1,84 +1,34 @@
-// creates the express module
+// REQUIRE MODULES
 const express = require('express');
+const fetch = require('node-fetch');
+const path = require('path');
 
-//create express app & logger
-const app        = express ()
-const logger     = require('morgan')
-const bodyParser = require('body-parser');
-const path       = require('path');
-const fetch      = require ('node-fetch');
+// INIT EXPRESS
+const app = express();
 
-//create the port
-const port    = 3000;
+// PORT
+const port = 3000;
 
+// DEFINE VIEWS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
+// QUESTIONS & ANSWERS
+const questions = [
+'Tell me a little bit about yourself?',
+'What excites you about technology?',
+'What is your preferred technology stack?',
+'What are your favorite hobbies?'
+];
+const answers = [
+'I\'m Danny Mackey and I come from a very strong background in Medicine, I decided to change carrer paths as I saw an opportunity to pursue what I love to do which is building things.',
+'Technology is exciting in so many different ways, it\'s constantly changing so in a sense we never stop learning which I think is great.',
+'Ideally I would like to work in Ruby and Rails although lately I have been working ona  few side projects in Vue js and Nuxt Js and have found them both to be very exciting with how easy it is to get applications running on and off the ground.',
+'My favorite hobbies include spending time with my wife and daughter, watching sports and writting about fantasy football'
+];
 
-// create a helper function that render server informatin in the browser
-
-function display(req, res) {
-  res.json({
-    'req.params': req.params,
-    'req.url'   : req.url,
-    'req.query' : req.query,
-    'req.body'  : req.body
-
-  })
-};
-
-
-//create home route
-app.get('/aboutme', (req,res) => {
-
-  app.get('/aboutme/description', (req, res) => {
-    res.render('aboutme.ejs', {
-      question: 'Tell me a little bit about yourself?',
-      answer: 'description...'
-    });
-  });
-
-  app.get('/aboutme/tech', (req, res) => {
-    res.render('aboutme.ejs', {
-      question: 'What excites you about technology?',
-      answer: 'tech...'
-    });
-  });
-
-  app.get('/aboutme/techstack', (req, res) => {
-    res.render('aboutme.ejs', {
-      question: 'What is your preferred technology stack?',
-      answer: 'techstack...'
-    });
-  });
-
-  app.get('/aboutme/hobbies', (req, res) => {
-    res.render('aboutme.ejs', {
-      question: 'What are your favorite hobbies?',
-      answer: 'hobbies...'
-    });
-  });
-
-  var questions = [
-    'Tell me a little bit about yourself?',
-    'What excites you about technology?',
-    'What is your preferred technology stack?',
-    'What are your favorite hobbies?'
-  ];
-
-  var answers = [
-    'I enjoy cooking, eating out, trying different foods, and spending time with my family',
-    'How everyday there is something new out there to learn everyday, how helpful the community is. ',
-    'Ruby On Rails coding on a whole is a joy to me but coding in rails is my favorite to use.',
-    'I enjoy fishing, sporting events, hikes camping and swimming.'
-  ];
-
-  res.render('aboutme.ejs', {
-    questions: questions,
-    answers: answers
-  });
-});
-
-app.get('/posts', (req,res) =>{
-  //fetch the api data
+// ROUTES
+app.get('/posts', (req, res) => {
   fetch('https://jsonplaceholder.typicode.com/posts')
   .then(res => res.json())
   .then(data => {
@@ -88,12 +38,40 @@ app.get('/posts', (req,res) =>{
   });
 });
 
+app.get('/aboutme', (req, res) => {
+  res.json({questions, answers});
+});
 
+app.get('/aboutme/description', (req, res) => {
+  const question = questions[0];
+  const answer = answers[0];
+  res.json({question, answer});
+});
 
+app.get('/aboutme/tech', (req, res) => {
+  const question = questions[1];
+  const answer = answers[1];
+  res.json({question, answer});
+});
 
+app.get('/aboutme/techstack', (req, res) => {
+  const question = questions[2];
+  const answer = answers[2];
+  res.json({question, answer});
+});
 
+app.get('/aboutme/hobbies', (req, res) => {
+  const question = questions[3];
+  const answer = answers[3];
+  res.json({question, answer});
+});
 
-// tell the app where to serve
+// HANDLE 404
+app.use((req, res) => {
+  res.status(404).send('Not Found');
+});
+
+// TELL SERVER TO LISTEN ON PORT
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
